@@ -1,0 +1,37 @@
+{% for blog in blogs_obj %}
+<div class="demo">
+    <div class="image-box">
+        <a href="{% url 'blog_detail' blog.pk %}"><img src="{{ blog.image.url }}"></a>
+    </div>
+    <div class="demo">
+
+        <center>
+            <h1 class="text-black add-letter-space mt-4">{{ blog.title }}</h1>
+        </center>
+
+        <span>{{ blog.description|safe|slice:":1500" }}</span>
+
+
+        <span class="fas fa-clock text-primary"></span>
+        <p></p><i>
+            <h4><u>By {{blog.user.first_name |title }} {{ blog.user.last_name}},{{ blog.created_at}}</u>
+            </h4>
+        </i></p>
+
+
+
+        <center>
+            {% if blog.user == request.user %}
+            <a href="{% url 'blog_update' blog.pk %}"><button class="btn btn-primary profile-button" type="submit">Blog
+                    update</button></a>
+            <a href="{% url 'blog_delete' blog.id %}"><button class="btn btn-danger profile-button" type="submit">Blog
+                    Delete</button></a>
+            <a href="{% url 'add_new_blog' %}"><button class="btn btn-secondary" type="submit"> Add New
+                    Blog</button></a>
+
+            {% endif %}
+            <a href="{% url 'blog_detail' blog.pk %}"><button class="btn btn-success" type="submit">Read</button></a>
+        </center>
+    </div>
+</div>
+{% endfor %}

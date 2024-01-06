@@ -1,0 +1,325 @@
+{% extends 'base1.html' %}
+
+{% block content %}
+
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+{% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" integrity="sha512-HFN9O1/AYh4WztaCLWe8i+CbzPLgNUG0HbONpS4dkJ90CwCo2w0rjT2nFkMdLgJOoHgzWQziZrDGT6vqdXeGfg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> {% endcomment %}
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- Font Awesome -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" integrity="sha512-/EcsIZQRMX0icKQa04oZd9jjDFSNHUjYqNp0Vd7zUGY55KgJl5hRnqpmEs7qvNLqZZ+GQvJqY36ITL+gZ6f2dw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
+
+<style>
+	body {
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-size: 14px;
+		line-height: 1.42857143;
+		color: #080808;
+		background-color: #c5f1ef;
+
+	}
+
+	.hidden {
+		display: none;
+	}
+
+	.card-body {
+		-ms-flex: 1 1 auto;
+		flex: 1 1 auto;
+		background: rgb(134, 120, 120);
+
+	}
+
+	img {
+		vertical-align: middle;
+		width: 100%;
+
+	}
+
+	.h2,
+	h2 {
+		font-size: 2rem;
+		background: gray;
+	}
+
+	.h3,
+	h3 {
+		font-size: 24px;
+		margin: -80px;
+	}
+
+	.h1,
+	.h2,
+	.h3,
+	.h4,
+	.h5,
+	.h6,
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		margin-bottom: .0rem;
+		font-weight: 600;
+		line-height: 1.2;
+
+	}
+
+	.jumbotron .h1,
+	.jumbotron h1 {
+		font-size: 61px;
+	}
+
+	.jumbotron {
+		background-image: url('https://cdn.pixabay.com/photo/2016/04/21/06/44/logo-1342690_1280.jpg');
+		background-repeat: no-repeat;
+		background-size: cover;
+		height: 391px;
+		margin-top: -40px;
+		margin-top: 58px;
+
+		margin-top: -40px;
+		color: #570707;
+
+	}
+
+	.btn-primary {
+		color: #fff;
+		background-color: #337ab7;
+		border-color: #2e6da4;
+		margin: 30px;
+	}
+
+	img {
+		vertical-align: middle;
+		width: 100%;
+		height: 500px;
+		margin-top: 14px;
+	}
+
+	.h4,
+	h4 {
+		/* font-size: 18px; */
+		text-align: right;
+		font-size: 18px;
+		color: darkblue;
+	}
+
+	img.demo {
+		border-radius: 100%;
+		width: 68px;
+		height: 68px;
+		margin-left: 1130px;
+		margin-top: -170px;
+	}
+
+	p.name1 {
+		text-align: right;
+		margin-top: -74px;
+		font-weight: 600;
+	}
+
+	.btn-success {
+		color: #fff;
+		background-color: #5cb85c;
+		border-color: #4cae4c;
+		margin: 10px;
+	}
+
+	#search+svg {
+		margin-left: -30px;
+		margin-bottom: -2px;
+	}
+
+	#search+svg {
+		visibility: hidden;
+	}
+
+
+
+	input#blog_title {
+		width: 223px;
+		height: 48px;
+		border-radius: 19px;
+		margin-top: -44px;
+	}
+	{% comment %} .search_box {
+		padding-left: 994px;
+		padding-top: -95px;
+	} {% endcomment %}
+	.search_box {
+		margin-left: -223px;
+	}
+	button#search-button {
+		color: white;
+		margin-left: 234px;
+		background: blue;
+		border-radius: 9px;
+		width: 39px;
+		height: 40px;
+		margin-top: -16px;
+	}
+	p#search_result_id {
+		margin-left: 60px;
+	}
+	
+</style>
+
+{% include 'app/header.html' %}
+<div class="jumbotron text-center">
+	<h1>Welcome to Blog Applicaion<h1>
+</div>
+
+<form action="{% url 'search' %}">
+	{% csrf_token %}
+	<div class="search_box">
+		<button class="search_submit" id="search-button" type="button" onclick="toggleSearchBox()"><i class="fa fa-search"></i></button>
+		<input type="text" name="blog_title" style="display: none" id="blog_title" placeholder="Search..." onkeyup="myFunction()">
+		{% comment %} <p id="search_result_id">Result:
+			<span id="demo"></span><br>
+		</p>  {% endcomment %}
+		
+	</div>
+	
+</form>
+
+<div class="container">
+	<div class="row justify-content-between">
+		<div class="demo" id="blogs_data_from_search_id">
+			{% for blog in blogs_obj %}
+			<div class="demo">
+				<div class="image-box">
+					<a href="{% url 'blog_detail' blog.pk %}"><img src="{{ blog.image.url }}"></a>
+				</div>
+				<div class="demo">
+
+					<center>
+						<h1 class="text-black add-letter-space mt-4">{{ blog.title }}</h1>
+					</center>
+					
+					<span>{{ blog.description|safe|slice:":1500" }}</span>
+
+
+					<span class="fas fa-clock text-primary"></span>
+					<p></p><i>
+						<h4><u>By {{blog.user.first_name |title }} {{ blog.user.last_name}},{{ blog.created_at}}</u>
+						</h4>
+					</i></p>
+
+
+
+					<center>
+						{% if blog.user == request.user %}
+						<a href="{% url 'blog_update' blog.pk %}"><button class="btn btn-primary profile-button"
+								type="submit">Blog update</button></a>
+						<a href="{% url 'blog_delete' blog.id %}"><button class="btn btn-danger profile-button"
+								type="submit">Blog Delete</button></a>
+						<a href="{% url 'add_new_blog' %}"><button class="btn btn-secondary" type="submit"> Add New
+								Blog</button></a>
+
+						{% endif %}
+						<a href="{% url 'blog_detail' blog.pk %}"><button class="btn btn-success"
+								type="submit">Read</button></a>
+									
+					</center>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+{% include 'app/footer.html' %}
+
+{% endblock content %}
+
+
+{% block js %}
+
+<!-- JavaScript -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+<script>
+	{% for mes in messages %}
+		alertify.set('notifier', 'position', 'top-right');
+		{% if mes.tags == 'success' %}
+			alertify.success('{{ mes }}');
+		{% else %}
+			alertify.error('{{ mes }}');
+		{% endif %}
+	{% endfor %}
+</script>
+
+<script>
+	function myFunction() {
+		var x = document.getElementById("blog_title").value;
+		document.getElementById("demo").innerHTML = x;
+	}
+</script>
+
+<script>
+	$(document).ready(function () {
+		$('#blog_title').keyup(function () {
+			var query = $(this).val();
+			console.log(query)
+			if (query !== '') {
+				$.ajax({
+					url: "{% url 'search' %}",
+					type: "POST",
+					headers: {
+						'X-CSRFToken': '{{ csrf_token }}'
+					},
+					data: { 'q': query },
+					success: function (data) {
+						$("#blogs_data_from_search_id").html(data)
+					},
+					error: function (xhr, errmsg, err) {
+						console.log(xhr.status + ": " + xhr.responseText);
+					}
+				});
+			} else {
+				$('#blog_title').empty();
+				
+			}
+		});
+	});
+</script>
+
+<script>
+
+	function toggleSearchBox() {
+		var searchInput = document.getElementById("blog_title");	
+		debugger
+		if (searchInput.style.display === "none") {
+			searchInput.style.display = "inline-block";
+		} else {
+			searchInput.style.display = "none";
+		}
+	}
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-uA0f6RbrnDg99bpKSnRzg09JXXnLPaRMHYXzPGq87F5Z+YYgozHDLXrsyZyIXBscg35mK7Xv18ZbU5pXZKpp/A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js" integrity="sha512-YZgXyRYd0bxyq6XSKF6K0nRZDBLC59Y7qrH0UxY6sU33Rr7O1dD3uL5m+8m4lHIMUXw1uBM28flwEAIU7JXs3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+{% endblock js %}

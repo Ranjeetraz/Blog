@@ -1,0 +1,309 @@
+{% extends 'base1.html' %}
+
+{% block content %}
+{% load static %} 
+<style>
+	body {
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-size: 14px;
+		line-height: 1.42857143;
+		color: #333;
+		background-color: #c5f1ef;
+	}
+
+	.jumbotron {
+		background-image: url('https://cdn.pixabay.com/photo/2016/04/21/06/44/logo-1342690_1280.jpg');
+		height: 400px;
+		height: 400px;
+		margin-top: -40px;
+		color: #570707;
+		background-repeat: no-repeat;   
+  		background-size: cover;
+	}
+
+	.bg-light {
+		background-color: #c5f1ef !important;
+	}
+
+	button,
+	input {
+		overflow: visible;
+		background-color: #e5e2e2;
+	}
+
+	img {
+		vertical-align: middle;
+		border-style: none;
+		height: 400px;
+		width: 100%;
+		
+	}
+
+	.h4,
+	h4 {
+		/* font-size: 18px; */
+		text-align: right;
+		font-size: 20px;
+		color: darkblue;
+	}
+
+	.img1 {
+		border-radius: 50%;
+		width: 40px;
+		height: 40px;
+	}
+	
+	h3.name1 {
+		margin-left: 1089px;
+		margin-top: -26px;
+		font-weight: 600;
+		font-size: 20px;
+	}
+	img.demo {
+		border-radius: 100%;
+		width: 68px;
+		height: 68px;
+		margin-left: 1107px;
+		margin-top: -130px;
+	}
+	p.header {
+		font-size: 61px;
+		font-weight: 600;
+	}
+	/* Styles for wrapping the search box */
+
+		.main {
+			width: 50%;
+			margin: 50px auto;
+		}
+
+	/* Bootstrap 4 text input with search icon */
+
+		.has-search .form-control {
+			padding-left: 2.375rem;
+		}
+
+	.has-search .form-control-feedback {
+		position: absolute;
+		z-index: 2;
+		display: block;
+		width: 2.375rem;
+		height: 2.375rem;
+		line-height: 2.375rem;
+		text-align: center;
+		pointer-events: none;
+		color: #aaa;
+	}
+</style>
+
+{% include 'app/header.html' %}
+<div class="jumbotron text-center">
+    <p class="header">Welcome to Blog Applicaion</p>   
+</div>
+
+<div class="container">
+	<div class="row1 justify-content-between">
+		<div class="demo">
+			<div class="demo" style="width:100%">
+				{% for img in blog.blog_images.all %}
+				<div class="demo">
+					<img src="{{ img.image.url }}" class="card-img-left" style="width: 100% ;margin: 7px;">
+				</div>
+				{% endfor %}
+
+				<div class="card-body">
+					<center>
+						<h3 class="text-black add-letter-space mt-4">{{ blog.title }}</h3>
+					</center>
+					
+					<p>{{ blog.description | safe}}</p>
+					<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+					
+					<script>
+					window.onload = function() {
+						CKEDITOR.replace('description', {
+						});
+					};
+					</script>
+
+
+
+					<span class="fas fa-clock text-primary"></span>
+					<p></p><i>
+						<h4><u>By {{blog.user.first_name | title }} {{ blog.user.last_name | title }},{{ blog.created_at}}</u></h4>
+					</i></p>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<form method="POST" id="mailsend">
+		{% csrf_token %}
+		<div class="form-group">
+			<label for="name">Name*</label>
+			<input type="name" name="name" id="name" placeholder="Enter  your name"><br>
+			<label for="email">Email*</label>
+			<input type="email" name="email" id="email" placeholder="Enter Email address" required><br>
+			<span id="error_msg" style="color: green;"></span>
+			<span id="error_msgs" style="color: red;"></span>
+			<div class="form-center"> <br>
+				<button type="submit" class="btn btn-primary btn-sm">Send Email</button>
+			</div>
+		</div>
+	</form>
+
+	<p class="error-msg d-none" style="color:red">Something went wrong!!</p>
+	<form method="POST" id="commentformid">
+		{% csrf_token %}
+		<div class="form-group">
+			{% if request.user.is_authenticated %}
+			<input type="text" name="comment" id="comment_id">
+			<input type="hidden" name="blog" id="blog_id" value="{{blog.pk}}">
+			<button type="button" class="btn btn-primary comment-submit-btn">Comment</button>
+			{% endif %}
+		</div>
+	</form>
+
+
+	{% for comment in blog.blog_comments.all %}
+	<div class="bg-light mb-3" style="max-width: 70rem;">
+		<div class="header">
+			<a>
+				<div>
+					
+					<h6><img class="img1" src="{{ comment.user.image.url }}">
+						{{comment.user.first_name | title }} {{ comment.user.last_name | title }},{{ comment.created_at}}</h6>
+				</div>
+			
+				<div class="body">
+
+					<p style="padding-left: 45px; margin-top: -15px;" class="text"><a>{{comment.comment}}</a></p>
+				</div>
+		</div>
+	</div>
+
+	{% endfor %}
+
+</div>
+{% include 'app/footer.html' %}
+
+{% endblock content %}
+
+{% block js %}
+
+
+<!-- JavaScript -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<script>
+	{% for mes in messages %}
+	alertify.set('notifier', 'position', 'top-right');
+	{% if mes.tags == 'success' %}
+	alertify.success('{{ mes }}');
+	{% else %}
+	alertify.error('{{ mes }}');
+	{% endif %}
+	{% endfor %}
+</script>
+
+<script>
+	// Get the alert message element
+	const alertMessage = document.getElementById('alert-message');
+
+	// Set a timeout of 4 seconds (4000 milliseconds) before hiding the message
+	setTimeout(() => {
+		alertMessage.style.display = 'none';
+	}, 3000);
+</script>
+
+
+
+<script>
+	$(".comment-submit-btn").click(function () {
+		var comment = $("#comment_id").val()
+		var blog_id = $("#blog_id").val()
+		
+		if (comment.length > 3) {
+			$('.error-msg').addClass('d-none');
+			comment_form_submit(comment, blog_id);
+		} else {
+			error_msg = $('.error-msg').removeClass('d-none');
+			setTimeout(function(){
+				error_msg.empty();
+			},3000);
+		};
+	});
+
+	function comment_form_submit(comment, blog_id) {
+		$.ajax({
+			type: 'POST',
+			url: "{% url 'submit_comment' %}",
+			headers: {
+				'X-CSRFToken': '{{ csrf_token }}'
+			},
+			data: { "comment": comment, "blog_id": blog_id },
+			success: function (response) {
+				location.reload();
+
+			},
+			error: function (error) {
+				console.log(error);
+			},
+			
+			
+		});
+	};
+</script>
+
+<script>
+	$(document).ready(function(){
+		$('#mailsend').on('submit', function(event){
+			event.preventDefault();
+			var form = $(this);
+			const emailMsg = $("#error_msg")
+			const emailError = $("#error_msgs")
+			var currentUrl = window.location.toString()
+			var name = $('#name').val();
+			var email = $('#email').val();
+
+			if (name === '') {
+				emailError.html("Please enter your name.").css("color", "red");
+				setTimeout(function(){
+					emailError.empty().css("color", "");
+				}, 3000);
+				return;
+			}
+
+			var data = {
+				'currentUrl':currentUrl,
+				'name': name,
+				'email': email
+			};
+			
+
+			$.ajax({
+				type:'POST',
+				url: "{% url 'share_blog' %}",
+				headers: {
+				'X-CSRFToken': '{{ csrf_token }}'
+				}, 
+				data: data,
+				success : function(response){
+					msg = response.msg
+					emailMsg.html(msg)
+					form[0].reset();
+
+					setTimeout(function(){
+						emailMsg.empty();
+					},3000);
+				},
+				error: function(response){
+					console.log(response);
+				}
+
+			})
+		})
+	}) 
+			
+</script>
+{% endblock js %}

@@ -1,0 +1,131 @@
+{% extends 'base1.html' %}
+
+{% block content %}
+{% load static %} 
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<style>
+    body {
+        background-color: #c5f1ef;
+    }
+	.card-img-left{
+		height: 58vh;
+	}
+	.card.mb-4 {
+		display: flex;
+		flex-flow: row;
+		
+	}
+
+    .btn-success {
+        color: #fff;
+        background-color: #0b4e0b;
+        border-color: #4cae4c;
+        margin: 6px;
+    }
+    
+	
+	.card-body {
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        background-color: #c5f1ef;
+    }
+	.h2, h2 {
+		font-size: 2rem;
+		background-color: #c5f1ef;
+	}
+	.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+		margin-bottom: .0rem;
+		font-weight: 600;
+		line-height: 1.2;
+		
+	}
+	.jumbotron {
+		background-color: #b59f98;
+		color: #1a1919;
+	}
+
+    .jumbotron {
+		background-image: url('https://cdn.pixabay.com/photo/2016/04/21/06/44/logo-1342690_1280.jpg');
+		
+        height: 400px;
+        margin-top: 58px;
+        height: 400px;
+        margin-top: -40px;
+		color: #570707;
+	}
+	
+
+</style>
+
+{% include 'app/header.html' %}
+<div class="container">
+	<div class="row justify-content-between">
+		<div class="col-md-12">
+            <form method="post" enctype="multipart/form-data">
+                <h1 class="text-center"> Blog Update </h1> 
+                {% csrf_token %}
+
+			<div class="card mb-4">
+				<div class="image-box">
+				<img src="{{ blogs_obj.image.url }}" class="card-img-left" style="width: 500px">
+                <input type="file" id="image" name="image" value="{{ blogs_obj.image.url }}" class="form-control-file" multiple >
+				</div>
+			<div class="card-body">
+                <div class="col-md-12"><label class="text-black add-letter-space mt-4">Title</label>
+                    <textarea name="title" id="title" class="form-control" >{{ blogs_obj.title  }}</textarea>
+                </div>
+
+                <div class="col-md-12"><label for="description" class="labels">Description</label>
+                    <textarea name="description" id="description" class="form-control">{{ blogs_obj.description | striptags }}</textarea>
+					<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+				<script>
+					CKEDITOR.replace('description');
+				</script>
+				</div>
+
+                
+                <button class="btn btn-success profile-button" type="submit">Save</button>
+			</div>
+            </div>
+        </form>
+		</div>
+	</div>
+</div>
+</div>
+{% include 'app/footer.html' %}
+{% endblock content %}
+
+
+{% block js %}
+<!-- JavaScript -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<script>
+  {% for mes in messages %}
+    alertify.set('notifier','position', 'top-right');
+    {% if mes.tags == 'success' %}
+    alertify.success('{{ mes }}');
+    {% else %}
+    alertify.error('{{ mes }}');
+    {% endif %}
+  {% endfor  %}
+</script>
+
+
+
+
+<script>
+		// Get the alert message element
+		const alertMessage = document.getElementById('alert-message');
+
+		// Set a timeout of 4 seconds (4000 milliseconds) before hiding the message
+		setTimeout(() => {
+		alertMessage.style.display = 'none';
+	}, 3000);
+</script>
+
+{% endblock js  %}

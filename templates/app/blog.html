@@ -1,0 +1,169 @@
+
+{% extends 'base1.html' %}
+
+{% block content %}
+
+
+{% load static %} 
+<style>
+  body {
+    background-color: #c5f1ef;
+
+  }
+  .col-md-5 {
+    -ms-flex: 0 0 41.666667%;
+    flex: 0 0 41.666667%;
+    max-width: 700px;
+  }
+  .card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+    background: lightgrey;
+    margin: 15px;
+    margin-top: -15px;
+}
+
+  .jumbotron {
+    background-image: url('https://cdn.pixabay.com/photo/2016/04/21/06/44/logo-1342690_1280.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+        height: 400px;
+        margin-top: 58px;
+        height: 400px;
+        margin-top: -40px;       
+        color: #570707;
+        font-weight: 600;
+        line-height: 1.2;
+        
+  }
+  .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-bottom: .5rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+
+  .form-control {
+    display: block;
+    width: 97%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+img.demo {
+  border-radius: 100%;
+  width: 68px;
+  height: 68px;
+  margin-left: 1130px;
+  margin-top: -170px;
+}
+p.name1 {
+  text-align: right;
+  margin-top: -22px;
+  
+}
+img.demo {
+  border-radius: 100%;
+  width: 68px;
+  height: 68px;
+  margin-left: 1130px;
+  margin-top: -114px;
+}
+p.header {
+  font-size: 60px;
+}
+
+
+  </style>
+<body>
+  {% include 'app/header.html' %}
+  
+
+  <div class="jumbotron text-center">
+    <p class="header">Welcome to Blog Applicaion</p> 
+  </div>
+
+      <div class="container">  
+      <div class="col-md-5 mx-auto">  
+      <div class="card card-body">  
+   
+      <form method="POST" enctype="multipart/form-data">
+        <h1 class="text-center"> Add Blog </h1> 
+        {% csrf_token %}
+          <div class="form-group">
+            <label for="title">Title</label><br>
+            <input type="text" class="form-control" name="title" id="title" placeholder="Enter title" required>
+        </div>
+  
+          <div class="form-group">
+            <label for="description">Description</label><br>
+            {{ form.description| safe}}
+            <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+          <script>
+            CKEDITOR.replace('description');
+          </script>
+        </div>
+
+          <div class="form-group">
+            <label for="image">Image</label><br>
+            <input type="file" id="image" name="image"  placeholder="Uplode Image" / multiple required>           
+          </div>
+
+          <center>
+          <button type="submit" class="btn btn-primary">Post</button>
+          </center>
+        </form>  
+
+      </div>
+    </div>
+  </div>
+</div>        
+</body>      
+  
+
+
+{% include 'app/footer.html' %}
+{% endblock content %}
+
+{% block js %}
+
+
+
+<!-- JavaScript -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<script>
+  {% for mes in messages %}
+    alertify.set('notifier','position', 'top-right');
+    {% if mes.tags == 'success' %}
+    alertify.success('{{ mes }}');
+    {% else %}
+    alertify.error('{{ mes }}');
+    {% endif %}
+  {% endfor  %}
+</script>
+
+
+
+
+<script>
+		// Get the alert message element
+		const alertMessage = document.getElementById('alert-message');
+
+		// Set a timeout of 4 seconds (4000 milliseconds) before hiding the message
+		setTimeout(() => {
+		alertMessage.style.display = 'none';
+	}, 3000);
+</script>
+
+{% endblock js  %}
+

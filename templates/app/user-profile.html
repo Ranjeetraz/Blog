@@ -1,0 +1,172 @@
+
+
+
+{% extends 'base1.html' %}
+
+{% block content %} 
+<style>
+body {
+  background-color: #c5f1ef;
+}
+
+img {
+  border-radius: 50%;
+  width: 177px;
+  height: 169px;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-color: #BA68C8
+}
+
+.profile-button {
+  background: rgb(13, 52, 54);
+  box-shadow: none;
+  border: none
+}
+
+.bg-white {
+  background-color: #a2c2e6!important;
+}
+.profile-button:hover {
+  background: #7d2e8a
+}
+
+.profile-button:focus {
+  background: #682773;
+  box-shadow: none
+}
+
+.profile-button:active {
+  background: #04139e;
+  box-shadow: none
+}
+
+.back:hover {
+  color: #600670;
+  cursor: pointer
+}
+
+.labels {
+  font-size: 17px
+}
+
+.add-experience:hover {
+  background: #BA68C8;
+  color: #fff;
+  cursor: pointer;
+  border: solid 1px #BA68C8
+}
+
+
+.jumbotron {
+  background-image: url('https://cdn.pixabay.com/photo/2016/04/21/06/44/logo-1342690_1280.jpg'); 
+  height: 400px;
+  margin-top: 58px;
+  margin-top: -40px;
+  color: #570707;
+  background-repeat: no-repeat;   
+  background-size: cover;
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+  margin-bottom: .5rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+p.header {
+  font-size: 60px;
+  font-weight: 600;
+}
+p.name1 {
+  /* font-size: 22px; */
+  font-weight: 600;
+}
+
+</style>
+{% include 'app/header.html' %}
+
+<div class="jumbotron text-center">
+  <p class="header">Welcome to Blog Applicaion</p>
+    </div>  
+</div>
+
+ <div class="container rounded bg-white mt-5 mb-5">
+  <div class="row">
+      <div class="col-md-3 border-right">
+          <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+            <form method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+            {% if request.user.image %}
+            <img src="{{ request.user.image.url }}" alt="Profile Picture">
+              {% endif %}
+          <input type="file" id="image" name="image"  class="form-control-file" accept="image/*">
+          <span class="font-weight-bold">{{ request.user.first_name |title }} {{ request.user.last_name|title }}</span>
+        </div>
+     </div>
+      <div class="col-md-5 border-right">
+          <div class="p-3 py-5">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <center><u><h2 class="text-right">Profile</h2></u></center>
+              </div>
+
+              {% comment %} <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %} {% endcomment %}
+              <div class="row mt-2">
+                  <div class="col-md-6"><label for="first_name" class="labels">First Name</label>
+                  <input type="text" name="first_name" id="first_name" class="form-control"  value={{request.user.first_name}}>
+                  </div>
+                  <div class="col-md-6"><label for="last_name" class="labels">Last name</label>
+                  <input type="text" name="last_name" id="last_name" class="form-control" value={{request.user.last_name}} required>
+                 </div>
+              </div>
+
+              <div class="row mt-3">
+                  <div class="col-md-12"><label for="phone_number" class="labels">Mobile Number</label><input type="text" name="phone_number" id="phone_number" class="form-control"  value={{request.user.phone_number}} disabled></div>
+                  <div class="col-md-12"><label class="labels">Email ID</label><input type="email" name="email" id="email" class="form-control" value={{request.user.email}} disabled></div>
+              </div>
+
+              <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
+</div> 
+{% include 'app/footer.html' %}
+{% endblock content %}
+
+{% block js %}
+
+<!-- JavaScript -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<script>
+  {% for mes in messages %}
+    alertify.set('notifier','position', 'top-right');
+    {% if mes.tags == 'success' %}
+    alertify.success('{{ mes }}');
+    {% else %}
+    alertify.error('{{ mes }}');
+    {% endif %}
+  {% endfor  %}
+</script>
+
+<script>
+		// Get the alert message element
+		const alertMessage = document.getElementById('alert-message');
+
+		// Set a timeout of 4 seconds (4000 milliseconds) before hiding the message
+		setTimeout(() => {
+		alertMessage.style.display = 'none';
+	}, 3000);
+</script>
+
+{% endblock js %}
+
+
+
+
+
+
+
